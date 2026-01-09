@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!--
+    Document encoding and responsive viewport.
+    - UTF-8 ensures accents/special characters render correctly.
+    - viewport makes the layout responsive on mobile devices.
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Page title (tab title + SEO snippet) -->
+  <title>NV — Natus Vincere</title>
+
+  <!-- Main stylesheet (all layout/typography/colors/animations live here) -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!--
+    Lenis (smooth/inertia scroll).
+    Must be loaded BEFORE app.js so the script can instantiate Lenis.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <!--
+    Main JS (UI interactions, carousel controls, lookbook parallax, reveal animations, modal, toast).
+    "defer" ensures the DOM is parsed before this script runs.
+  -->
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <!--
+    Top navigation bar (sticky header).
+    - Brand links back to the hero section (#inicio).
+    - Navigation uses anchor links to scroll to sections.
+    - CTA button is a demo "cart" action (no real checkout).
+  -->
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="NV Home">
+      <span class="brand-mark">NV</span>
+      <span class="brand-name">Natus Vincere</span>
+    </a>
+
+    <nav class="nav">
+      <a href="#coleccion">Colección</a>
+      <a href="#carrusel">Status</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#footer">Contacto</a>
+    </nav>
+
+    <div class="topbar-cta">
+      <button class="pill" type="button" aria-label="Abrir carrito (demo)" title="Demo">
+        Carrito <span class="pill-dot"></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!--
+      HERO (above-the-fold).
+      - Left column: copy (headline, value prop, CTAs, trust indicators).
+      - Right column: hero image inside a frame + decorative badges.
+      - hero-bg: decorative background layers (marble / gold / roman overlay), controlled via CSS variables.
+      - "hidden" class enables reveal-on-scroll animation (IntersectionObserver toggles "show").
+    -->
+    <section class="hero" id="inicio">
+      <div class="hero-inner">
+        <div class="hero-copy hidden">
+          <p class="kicker">NV · Dress like real men</p>
+
+          <!--
+            Title with duplicated stroke effect (CSS uses data-content for the outlined overlay).
+          -->
+          <h1 class="title" data-content="Natus Vincere">
+            Natus Vincere
+          </h1>
+
+          <p class="lead">
+            Ropa elegante para hombre: <b>presencia</b>, <b>estatus</b> y <b>detalle</b>.
+            Diseños hechos para verse caro, sentirse firmes y cerrar puertas con autoridad.
+          </p>
+
+          <!-- Primary and secondary calls-to-action -->
+          <div class="cta-row">
+            <a class="btn primary" href="#coleccion">Comprar ahora</a>
+            <a class="btn ghost" href="#lookbook">Ver lookbook</a>
+          </div>
+
+          <!-- Trust highlights (shipping, quality, brand positioning) -->
+          <div class="trust-row">
+            <div class="trust-item">
+              <span class="trust-big">48h</span>
+              <span class="trust-small">Envío express</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-big">Premium</span>
+              <span class="trust-small">Materiales & corte</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-big">NV</span>
+              <span class="trust-small">Marca de status</span>
+            </div>
+          </div>
+        </div>
+
+        <!--
+          Hero media block:
+          - Main image is inside .hero-frame to control cropping/border/glow.
+          - .hero-badges are decorative labels over/near the image.
+        -->
+        <div class="hero-media hidden" aria-label="Imagen principal">
+          <div class="hero-frame">
+            <img
+              src="https://images.pexels.com/photos/33891045/pexels-photo-33891045.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1800&dpr=1"
+              alt="Hombre con traje elegante"
+              loading="lazy"
+            />
+          </div>
+          <div class="hero-badges" aria-hidden="true">
+            <span class="badge">Sastrería moderna</span>
+            <span class="badge">Cortes limpios</span>
+            <span class="badge">Accesorios de impacto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative background layer (purely visual, ignored by screen readers) -->
+      <div class="hero-bg" aria-hidden="true"></div>
+    </section>
+
+    <!--
+      FEATURED PRODUCTS ("Colección").
+      - Grid of product cards (image + title + short descriptor + price + add button).
+      - Buttons use data-toast to show a demo toast message.
+    -->
+    <section class="section products" id="coleccion">
+      <div class="section-head hidden">
+        <h2>Colección “Status Essentials”</h2>
+        <p>Piezas clave para verte caro sin hablar de dinero. Esto es presencia.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/19747985/pexels-photo-19747985.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Traje beige con corbata"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Traje “Aureus”</h3>
+            <p class="product-sub">Beige elegante · corte slim</p>
+            <div class="product-row">
+              <span class="price">$3,490</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/29495736/pexels-photo-29495736.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Hombre ajustando mancuernillas con traje"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Saco “Verdant”</h3>
+            <p class="product-sub">Verde profundo · statement</p>
+            <div class="product-row">
+              <span class="price">$2,190</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/19098119/pexels-photo-19098119.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Hombre en traje ajustando reloj"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Reloj “Chronos”</h3>
+            <p class="product-sub">Dorado · vibra ejecutiva</p>
+            <div class="product-row">
+              <span class="price">$1,290</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/19556449/pexels-photo-19556449.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Zapatos de vestir negros"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Loafers “Noir”</h3>
+            <p class="product-sub">Cuero negro · formal</p>
+            <div class="product-row">
+              <span class="price">$1,890</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/4905829/pexels-photo-4905829.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Detalle de cinturón sobre traje"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Cinturón “Ledger”</h3>
+            <p class="product-sub">Cuero · detalle premium</p>
+            <div class="product-row">
+              <span class="price">$690</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card hidden">
+          <img
+            src="https://images.pexels.com/photos/15059774/pexels-photo-15059774.jpeg?auto=compress&cs=tinysrgb&w=1200&dpr=1"
+            alt="Zapatos café de vestir"
+            loading="lazy"
+          />
+          <div class="product-body">
+            <h3>Oxfords “Cognac”</h3>
+            <p class="product-sub">Cuero café · elegante</p>
+            <div class="product-row">
+              <span class="price">$1,990</span>
+              <button class="btn small" type="button" data-toast="Añadido (demo)">Añadir</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!--
+      3D CAROUSEL ("Status").
+      - This section hosts a rotating 3D ring of product tiles.
+      - CSS variables:
+        --quantity: number of items in the ring
+        --manual-rotate: extra rotation offset applied on top of the auto-rotation animation
+      - Interactions (handled in app.js):
+        Drag: adjusts --manual-rotate
+        Wheel: fine rotation
+        Hover: pauses auto-run (CSS)
+        Click: opens Quick View modal using data-* fields
+    -->
+    <section class="section carousel-section" id="carrusel">
+      <div class="section-head hidden">
+        <h2>La esfera del status</h2>
+        <p>
+          <b>Arrastra</b> para moverla a tu gusto. <b>Wheel</b> para girar fino.
+          <b>Hover</b> pausa. <b>Click</b> abre detalle.
+        </p>
+      </div>
+
+      <div class="carousel-stage" aria-label="Carrusel 3D rotatorio interactivo">
+        <!--
+          IMPORTANT:
+          The auto-rotation animation remains the same conceptually.
+          The "manual rotate" is added via CSS variable so user control stacks on top of the auto-run.
+        -->
+
+        <div class="slider-wrap">
+          <div class="slider" style="--quantity: 10; --manual-rotate: 0deg;">
+            <!--
+              Each item is a <button> to support accessibility and click-to-open modal.
+              data-title / data-price / data-desc / data-img populate the Quick View modal.
+            -->
+            <button class="item" style="--position: 1"
+              data-title="Traje ‘Silver Tux’" data-price="$3,990"
+              data-desc="Corte elegante, brillo controlado. Para entrar y dominar la sala."
+              data-img="https://images.pexels.com/photos/11557836/pexels-photo-11557836.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/11557836/pexels-photo-11557836.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Traje elegante" loading="lazy">
+              <span class="tag">Traje · $3,990</span>
+            </button>
+
+            <button class="item" style="--position: 2"
+              data-title="Traje ‘Aureus’" data-price="$3,490"
+              data-desc="Beige premium, limpio y dominante."
+              data-img="https://images.pexels.com/photos/19747985/pexels-photo-19747985.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/19747985/pexels-photo-19747985.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Traje beige" loading="lazy">
+              <span class="tag">Traje · $3,490</span>
+            </button>
+
+            <button class="item" style="--position: 3"
+              data-title="Blazer ‘Double’" data-price="$2,290"
+              data-desc="Minimal, pero pesado. Blazer para presencia."
+              data-img="https://images.pexels.com/photos/8276233/pexels-photo-8276233.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/8276233/pexels-photo-8276233.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Hombres con blazer" loading="lazy">
+              <span class="tag">Blazer · $2,290</span>
+            </button>
+
+            <button class="item" style="--position: 4"
+              data-title="Saco ‘Night Talk’" data-price="$2,190"
+              data-desc="Sobrio para salir con estatus."
+              data-img="https://images.pexels.com/photos/8730907/pexels-photo-8730907.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/8730907/pexels-photo-8730907.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Hombres en blazer conversando" loading="lazy">
+              <span class="tag">Saco · $2,190</span>
+            </button>
+
+            <button class="item" style="--position: 5"
+              data-title="Set ‘Suit Duo’" data-price="$3,190"
+              data-desc="Dos piezas, un mensaje: ‘aquí mando’."
+              data-img="https://images.pexels.com/photos/8915593/pexels-photo-8915593.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/8915593/pexels-photo-8915593.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Hombres en traje" loading="lazy">
+              <span class="tag">Set · $3,190</span>
+            </button>
+
+            <button class="item" style="--position: 6"
+              data-title="Formal ‘Line’" data-price="$3,690"
+              data-desc="Formal de alto impacto. Ideal eventos."
+              data-img="https://images.pexels.com/photos/17314244/pexels-photo-17314244.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/17314244/pexels-photo-17314244.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Grupo de hombres en traje" loading="lazy">
+              <span class="tag">Formal · $3,690</span>
+            </button>
+
+            <button class="item" style="--position: 7"
+              data-title="Cinturón ‘Ledger’" data-price="$690"
+              data-desc="Los detalles venden el cuento. Este lo confirma."
+              data-img="https://images.pexels.com/photos/4905829/pexels-photo-4905829.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/4905829/pexels-photo-4905829.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Cinturón y traje" loading="lazy">
+              <span class="tag">Cinturón · $690</span>
+            </button>
+
+            <button class="item" style="--position: 8"
+              data-title="Reloj ‘Chronos’" data-price="$1,290"
+              data-desc="El tiempo no perdona. Tú tampoco."
+              data-img="https://images.pexels.com/photos/19098119/pexels-photo-19098119.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/19098119/pexels-photo-19098119.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Reloj en traje" loading="lazy">
+              <span class="tag">Reloj · $1,290</span>
+            </button>
+
+            <button class="item" style="--position: 9"
+              data-title="Loafers ‘Noir’" data-price="$1,890"
+              data-desc="Zapato negro para cerrar tratos."
+              data-img="https://images.pexels.com/photos/19556449/pexels-photo-19556449.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/19556449/pexels-photo-19556449.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Loafers negros" loading="lazy">
+              <span class="tag">Zapatos · $1,890</span>
+            </button>
+
+            <button class="item" style="--position: 10"
+              data-title="Oxfords ‘Cognac’" data-price="$1,990"
+              data-desc="Cuero café: elegante sin gritar."
+              data-img="https://images.pexels.com/photos/15059774/pexels-photo-15059774.jpeg?auto=compress&cs=tinysrgb&w=1600&dpr=1">
+              <img src="https://images.pexels.com/photos/15059774/pexels-photo-15059774.jpeg?auto=compress&cs=tinysrgb&w=900&dpr=1" alt="Oxfords café" loading="lazy">
+              <span class="tag">Zapatos · $1,990</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- On-screen hints (visual help for interaction; not essential for screen readers) -->
+        <div class="carousel-hint" aria-hidden="true">
+          <span>Drag = controlar</span>
+          <span>Wheel = girar</span>
+          <span>Hover = pausa</span>
+          <span>Click = detalle</span>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      LOOKBOOK (parallax track).
+      - Horizontal draggable gallery.
+      - Parallax illusion is created by translating the track while shifting each image's object-position.
+      - Interactions (app.js):
+        Drag: moves track left/right
+        Wheel: also moves track left/right
+    -->
+    <section class="section lookbook" id="lookbook">
+      <div class="section-head hidden">
+        <h2>Lookbook (parallax)</h2>
+        <p>Arrastra a los lados. La imagen “se mueve” internamente mientras desplazas el track.</p>
+      </div>
+
+      <div class="lookbook-viewport" aria-label="Galería con parallax">
+        <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+          <img class="image"
+            src="https://images.pexels.com/photos/29495736/pexels-photo-29495736.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Cufflinks en traje" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/4905829/pexels-photo-4905829.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Cinturón sobre traje" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/19098119/pexels-photo-19098119.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Reloj y traje" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/5350693/pexels-photo-5350693.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Hombre revisando reloj" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/19556449/pexels-photo-19556449.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Loafers negros" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/15059774/pexels-photo-15059774.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Oxfords café" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/18247658/pexels-photo-18247658.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Manos ajustando traje" draggable="false" loading="lazy" />
+          <img class="image"
+            src="https://images.pexels.com/photos/9541244/pexels-photo-9541244.jpeg?auto=compress&cs=tinysrgb&w=1400&dpr=1"
+            alt="Detalle de manga y reloj" draggable="false" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!--
+      FOOTER (Contact + quick links).
+      - Year is injected via app.js (#year).
+      - Links are demo placeholders.
+    -->
+    <footer class="footer" id="footer">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">NV</div>
+          <p class="footer-text">Natus Vincere — ropa elegante para hombres que no piden permiso.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atención</h4>
+          <a href="#coleccion">Productos</a>
+          <a href="#lookbook">Lookbook</a>
+          <a href="#carrusel">Status</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <a href="#" aria-label="Email (demo)">ventas@natusvincere.com</a>
+          <a href="#" aria-label="Instagram (demo)">@natusvincere</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Natus Vincere</span>
+        <span class="muted">Demo UI — sin pasarela</span>
+      </div>
+    </footer>
+  </main>
+
+  <!--
+    QUICK VIEW MODAL
+    - Opened when the user clicks a carousel item (.slider .item).
+    - Content is populated from data-* attributes: title, price, description, and image.
+    - Backdrop + close button use [data-close] to dismiss.
+    - ESC key also closes the modal (handled in app.js).
+  -->
+  <div class="modal" id="quickView" aria-hidden="true" role="dialog" aria-label="Vista rápida de producto">
+    <div class="modal-backdrop" data-close></div>
+
+    <div class="modal-card" role="document">
+      <button class="modal-close" type="button" aria-label="Cerrar" data-close>×</button>
+
+      <div class="modal-media">
+        <img id="qvImg" src="" alt="" />
+      </div>
+
+      <div class="modal-body">
+        <h3 id="qvTitle">Producto</h3>
+        <p class="modal-price" id="qvPrice">$0</p>
+        <p class="modal-desc" id="qvDesc"></p>
+
+        <div class="modal-actions">
+          <button class="btn primary" type="button" data-toast="Añadido (demo)">Añadir al carrito</button>
+          <button class="btn ghost" type="button" data-close>Seguir viendo</button>
+        </div>
+
+        <p class="modal-fineprint">Envío y tallas: demo. Conecta tu backend cuando quieras.</p>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    TOAST (small demo notification).
+    - Triggered by clicking any element with data-toast="...".
+    - Automatically hides after a short timeout (app.js).
+  -->
+  <div class="toast" id="toast" aria-hidden="true"></div>
+</body>
+</html>

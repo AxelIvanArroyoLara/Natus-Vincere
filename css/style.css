@@ -1,0 +1,919 @@
+/* ------------------------------------------------------------
+   Fonts
+   - Imported from cdnfonts.com
+   - "fathers-outline" is used for the big outlined NV headline
+   - "sageffine" is available if you want a more decorative accent
+------------------------------------------------------------ */
+@import url('https://fonts.cdnfonts.com/css/fathers-outline');
+@import url('https://fonts.cdnfonts.com/css/sageffine');
+
+/* ------------------------------------------------------------
+   Root Design Tokens
+   - Centralized palette + assets + common radii/shadows
+   - Background uses black marble + gold texture + roman overlay
+------------------------------------------------------------ */
+:root{
+  --bg: #070709;
+
+  /* Background images (remote textures) */
+  --bg-marble: url("https://images.unsplash.com/photo-1738664926458-d8ca7f56549f?fm=jpg&q=60&w=2400");
+  --bg-goldthreads: url("https://images.unsplash.com/photo-1680474569812-552b793eb21f?fm=jpg&q=60&w=2400");
+
+  /* Roman overlay image (local asset) */
+  --bg-roman: url(../images/model.png);
+
+  /* UI surfaces */
+  --panel: rgba(255,255,255,0.06);
+  --panel2: rgba(255,255,255,0.10);
+
+  /* Text colors */
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.68);
+
+  /* Accent (gold) */
+  --gold: rgba(255,196,0,0.55);
+  --gold2: rgba(255,196,0,0.28);
+  --stroke: #d2d2d2;
+  --accent: #ffc400;
+
+  /* Shadow + rounding */
+  --shadow: 0 18px 60px rgba(0,0,0,0.55);
+  --radius: 18px;
+}
+
+/* ------------------------------------------------------------
+   CSS Reset
+   - Remove default margins/padding and normalize box sizing
+------------------------------------------------------------ */
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+/* ------------------------------------------------------------
+   Scrolling behavior
+   - scroll-behavior:auto so Lenis can control smooth scrolling
+------------------------------------------------------------ */
+html{ scroll-behavior:auto; }
+
+/* ------------------------------------------------------------
+   Body / Global Background
+   - Base typography uses system font stack
+   - Prevent horizontal overflow
+   - "Black marble + gold + subtle roman overlay" layered background
+   - Uses multiple gradients + texture images with blend modes
+------------------------------------------------------------ */
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+
+  /* Multi-layer background composition */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1200px 700px at 20% 0%, rgba(255,196,0,0.10), transparent 60%),
+    radial-gradient(900px 700px at 80% 10%, rgba(255,255,255,0.06), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,0.60), rgba(0,0,0,0.90)),
+    var(--bg-goldthreads),
+    var(--bg-marble);
+  background-size:
+    cover,
+    cover,
+    cover,
+    1200px auto,
+    cover;
+  background-position:
+    center,
+    center,
+    center,
+    top right,
+    center;
+  background-repeat: no-repeat;
+
+  /* Blend layers to get subtle gold shimmer over marble */
+  background-blend-mode: screen, screen, normal, overlay, normal;
+}
+
+/* ------------------------------------------------------------
+   Desktop-only background attachment
+   - Adds a "fixed" feeling for the last 2 layers on large screens
+   - Keeps mobile behavior lighter/smoother
+------------------------------------------------------------ */
+@media (min-width: 1024px){
+  body{ background-attachment: scroll, scroll, scroll, fixed, fixed; }
+}
+
+/* ------------------------------------------------------------
+   Topbar (Sticky Header)
+   - Sticky at top with blur glass effect
+   - Contains brand, navigation, and a CTA pill button
+------------------------------------------------------------ */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 14px 22px;
+
+  background: rgba(7,7,9,0.70);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Brand link (NV mark + name) */
+.brand{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  text-decoration:none;
+  color: var(--text);
+}
+
+/* NV mark box */
+.brand-mark{
+  width: 38px;
+  height: 38px;
+  display:grid;
+  place-items:center;
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255,196,0,0.35), rgba(255,255,255,0.04));
+  border: 1px solid rgba(255,255,255,0.12);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+/* Brand name text */
+.brand-name{
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  opacity: 0.92;
+}
+
+/* Navigation links */
+.nav{
+  display:flex;
+  gap: 18px;
+}
+.nav a{
+  text-decoration:none;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.nav a:hover{ color: var(--text); }
+
+/* Topbar CTA pill button */
+.pill{
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+
+/* Small glowing dot used in the pill CTA */
+.pill-dot{
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(255,196,0,0.14);
+}
+
+/* ------------------------------------------------------------
+   Sections (shared layout rules)
+   - Constrains section width and sets vertical spacing
+------------------------------------------------------------ */
+.section{
+  width: min(1200px, calc(100vw - 40px));
+  margin: 0 auto;
+  padding: 70px 0;
+}
+
+/* Section headings */
+.section-head{
+  margin-bottom: 22px;
+}
+.section-head h2{
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.section-head p{
+  color: var(--muted);
+  max-width: 75ch;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   Buttons (shared)
+   - Base button + variants (primary, ghost, small)
+   - Hover lift + glass highlight
+------------------------------------------------------------ */
+.btn{
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 16px;
+  cursor: pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.22);
+}
+
+/* Gold primary CTA */
+.btn.primary{
+  background: linear-gradient(135deg, rgba(255,196,0,0.95), rgba(255,196,0,0.55));
+  border-color: rgba(255,196,0,0.45);
+  color: #0b0b0b;
+  font-weight: 800;
+}
+.btn.primary:hover{
+  background: linear-gradient(135deg, rgba(255,196,0,1), rgba(255,196,0,0.60));
+}
+
+/* Secondary "ghost" CTA */
+.btn.ghost{ background: rgba(0,0,0,0.14); }
+
+/* Smaller button used in product cards */
+.btn.small{
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------
+   HERO (compact roman luxury layout)
+   - Two-column grid on desktop
+   - Headline uses fathers-outline + outlined overlay (::after)
+   - Hero image is constrained to avoid cropping too high
+------------------------------------------------------------ */
+.hero{
+  position: relative;
+  width: 100%;
+  padding: 26px 0 10px;
+}
+
+/* Main hero layout container */
+.hero-inner{
+  width: min(1200px, calc(100vw - 40px));
+  margin: 0 auto;
+  display:grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 26px;
+  align-items: center;
+  min-height: 72vh;
+}
+
+/* Small uppercase line above the headline */
+.hero-copy .kicker{
+  color: rgba(255,255,255,0.76);
+  letter-spacing: 0.18em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* Big title (gold fill + outlined duplicate) */
+.title{
+  font-family: 'fathers-outline';
+  font-size: clamp(3.2rem, 6vw, 6.2rem);
+  line-height: 0.95em;
+  color: rgba(255,196,0,0.42);
+  position: relative;
+  margin-bottom: 14px;
+}
+
+/* Outline overlay text (uses data-content attribute) */
+.title::after{
+  position: absolute;
+  inset: 0;
+  content: attr(data-content);
+  z-index: 2;
+  -webkit-text-stroke: 2px var(--stroke);
+  color: transparent;
+  pointer-events: none;
+}
+
+/* Supporting paragraph */
+.lead{
+  color: rgba(255,255,255,0.84);
+  line-height: 1.55;
+  max-width: 65ch;
+}
+
+/* CTA and trust rows */
+.cta-row{
+  display:flex;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.trust-row{
+  display:flex;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* Trust pill cards */
+.trust-item{
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  padding: 12px 14px;
+  min-width: 150px;
+  backdrop-filter: blur(10px);
+}
+.trust-big{
+  display:block;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.trust-small{
+  display:block;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+/* Hero image wrapper */
+.hero-media{ position: relative; }
+
+/* Glassy image frame */
+.hero-frame{
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  box-shadow: var(--shadow);
+}
+
+/* Main hero image sizing + crop position */
+.hero-frame img{
+  width: 100%;
+  height: min(56vh, 560px);
+  object-fit: cover;
+  object-position: center 25%;
+  display:block;
+  filter: contrast(1.02) saturate(1.02);
+}
+
+/* Decorative badges on top of hero image */
+.hero-badges{
+  position:absolute;
+  bottom: 16px;
+  left: 16px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.badge{
+  background: rgba(0,0,0,0.44);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.90);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  backdrop-filter: blur(10px);
+}
+
+/* ------------------------------------------------------------
+   Hero background overlay (roman + gold)
+   - Uses layered gradients + --bg-roman
+   - Low opacity for subtle texture behind the hero content
+------------------------------------------------------------ */
+.hero-bg{
+  position:absolute;
+  inset: 0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(900px 520px at 30% 20%, rgba(255,196,0,0.12), transparent 60%),
+    radial-gradient(900px 520px at 80% 10%, rgba(255,255,255,0.05), transparent 55%),
+    var(--bg-roman);
+  background-size: cover, cover, 320px auto;
+  background-position: center, center, 32%;
+  background-repeat: no-repeat;
+  background-blend-mode: screen, screen, multiply;
+  opacity: 0.22; /* subtle */
+  z-index: -1;
+  filter: contrast(1.05);
+}
+
+/* ------------------------------------------------------------
+   Product Grid
+   - 3-column desktop grid for featured products
+   - Card styling uses glass + shadows
+------------------------------------------------------------ */
+.product-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Product card container */
+.product-card{
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--radius);
+  overflow:hidden;
+  box-shadow: 0 10px 34px rgba(0,0,0,0.46);
+  backdrop-filter: blur(10px);
+}
+
+/* Product image in the card */
+.product-card img{
+  width:100%;
+  height: 230px;
+  object-fit: cover;
+  display:block;
+}
+
+/* Product card text block */
+.product-body{ padding: 14px 14px 16px; }
+.product-body h3{
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+.product-sub{
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+
+/* Price row */
+.product-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top: 12px;
+  gap: 10px;
+}
+.price{
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+/* ------------------------------------------------------------
+   3D Carousel (same rotation)
+   - Carousel stage is a decorative panel that contains the 3D ring
+   - User can drag/wheel to apply a manual rotation offset
+------------------------------------------------------------ */
+.carousel-stage{
+  position: relative;
+  width: 100%;
+  height: 760px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.10);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  user-select: none;
+
+  /* Same luxury background treatment as the page */
+  background-image:
+    radial-gradient(900px 520px at 50% 40%, rgba(255,196,0,0.14), transparent 60%),
+    radial-gradient(900px 520px at 20% 10%, rgba(255,255,255,0.06), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.65)),
+    var(--bg-goldthreads),
+    var(--bg-marble);
+  background-size: cover, cover, cover, 1100px auto, cover;
+  background-position: center, center, center, top right, center;
+  background-repeat: no-repeat;
+  background-blend-mode: screen, screen, normal, overlay, normal;
+}
+
+/* Center statue overlay (visual centerpiece; does not block drag) */
+.carousel-center-statue{
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 420px;
+  z-index: 4;              /* above the background */
+  pointer-events: none;    /* does not block interactions */
+  display: grid;
+  place-items: center;
+  opacity: 0.92;
+
+  /* Adds depth to push it forward in 3D space */
+  transform: translate(-50%, -50%) translateZ(140px);
+}
+.carousel-center-statue img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 24px 40px rgba(0,0,0,0.7))
+    drop-shadow(0 0 18px rgba(255,196,0,0.18));
+}
+
+/* Slider wrapper:
+   - Positioned at the center of the stage
+   - Carries the continuous auto-rotation animation */
+.slider-wrap{
+  position: absolute;
+  width: 210px;
+  height: 270px;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform-style: preserve-3d;
+
+  /* Exact autoRun animation (kept from the original base) */
+  animation: autoRun 20s linear infinite;
+  z-index: 2;
+}
+
+/* Pause auto-rotation when hovering/focusing or while dragging */
+.carousel-stage:hover .slider-wrap,
+.carousel-stage:focus-within .slider-wrap,
+.carousel-stage.is-dragging .slider-wrap{
+  animation-play-state: paused;
+}
+
+/* Auto-rotation keyframes
+   - Perspective + slight rotateX + full rotateY loop */
+@keyframes autoRun{
+  from{
+    transform: perspective(1000px) rotateX(-4deg) rotateY(0deg);
+  }
+  to{
+    transform: perspective(1000px) rotateX(-4deg) rotateY(360deg);
+  }
+}
+
+/* Inner slider:
+   - Applies only the manual offset rotation via CSS variable
+   - This stacks on top of the autoRun animation without changing it */
+.slider{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--manual-rotate, 0deg));
+}
+
+/* Carousel item:
+   - Each item is positioned around the ring based on --position and --quantity
+   - translateZ controls the radius of the ring */
+.slider .item{
+  position: absolute;
+  inset: 0;
+  transform:
+    rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+    translateZ(420px);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Item image card */
+.slider .item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.60);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* Item hover effect */
+.slider .item:hover img{
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.10);
+}
+
+/* Tag label inside each item */
+.tag{
+  position:absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.46);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.92);
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+}
+
+/* Carousel interaction hints (UI helper text) */
+.carousel-hint{
+  position:absolute;
+  left: 16px;
+  bottom: 14px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  z-index: 5;
+  color: rgba(255,255,255,0.78);
+  font-size: 0.95rem;
+}
+.carousel-hint span{
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.38);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px);
+}
+
+/* ------------------------------------------------------------
+   Responsive adjustments (tablet)
+   - Hero becomes single column
+   - Product grid changes to 2 columns
+   - Carousel reduces size and radius (translateZ)
+------------------------------------------------------------ */
+@media (max-width: 1023px){
+  .product-grid{ grid-template-columns: repeat(2, 1fr); }
+
+  .hero-inner{
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 20px;
+  }
+
+  .hero-frame img{ height: min(52vh, 520px); }
+
+  .slider-wrap{
+    width: 170px;
+    height: 220px;
+  }
+
+  .slider .item{
+    transform:
+      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+      translateZ(320px);
+  }
+}
+
+/* ------------------------------------------------------------
+   Responsive adjustments (mobile)
+   - Hide top navigation links
+   - Product grid becomes a single column
+   - Carousel becomes shorter and uses a smaller radius
+------------------------------------------------------------ */
+@media (max-width: 767px){
+  .nav{ display:none; }
+  .product-grid{ grid-template-columns: 1fr; }
+
+  .carousel-stage{ height: 500px;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+ }
+
+  .slider-wrap{
+    width: 120px;
+    height: 170px;
+  }
+  .slider .item{
+    transform:
+      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+      translateZ(200px);
+  }
+}
+
+/* ------------------------------------------------------------
+   Lookbook Parallax Track
+   - Horizontal track centered vertically in the viewport
+   - Parallax effect relies on updating object-position per image
+------------------------------------------------------------ */
+.lookbook-viewport{
+  position: relative;
+  height: 64vh;
+  min-height: 420px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.10);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  user-select: none;
+
+  background: rgba(0,0,0,0.34);
+  backdrop-filter: blur(10px);
+}
+
+/* Horizontal image strip */
+#image-track{
+  display:flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(0%, -50%);
+  will-change: transform;
+}
+
+/* Lookbook images (large, tall cards) */
+#image-track > .image{
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% 50%;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.55);
+}
+#image-track > .image:hover{ filter: brightness(1.10); }
+
+/* ------------------------------------------------------------
+   Intersection / Reveal Animations
+   - Elements start with .hidden, then get .show when in view
+------------------------------------------------------------ */
+.hidden{
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(18px);
+  transition: all 0.9s ease;
+}
+.show{
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------
+   Footer
+   - 3-column grid on desktop
+   - Contains quick links and contact info
+------------------------------------------------------------ */
+.footer{
+  padding: 60px 0 18px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(10px);
+}
+
+/* Footer layout */
+.footer-inner{
+  width: min(1200px, calc(100vw - 40px));
+  margin: 0 auto;
+  display:grid;
+  grid-template-columns: 1.2fr 0.6fr 0.6fr;
+  gap: 16px;
+}
+
+/* Footer brand */
+.footer-brand{
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+/* Footer copy */
+.footer-text{
+  margin-top: 10px;
+  color: var(--muted);
+  max-width: 50ch;
+  line-height: 1.5;
+}
+
+/* Footer columns */
+.footer-col h4{ margin-bottom: 10px; letter-spacing: 0.02em; }
+.footer-col a{
+  display:block;
+  text-decoration:none;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.footer-col a:hover{ color: var(--text); }
+
+/* Footer bottom bar */
+.footer-bottom{
+  width: min(1200px, calc(100vw - 40px));
+  margin: 18px auto 0;
+  display:flex;
+  justify-content:space-between;
+  gap: 14px;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.95rem;
+}
+.muted{ opacity: 0.75; }
+
+/* ------------------------------------------------------------
+   Modal (Quick View)
+   - Display toggled via aria-hidden attribute
+   - Backdrop covers page; modal-card is the content container
+------------------------------------------------------------ */
+.modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  z-index: 200;
+}
+.modal[aria-hidden="false"]{ display: grid; }
+
+/* Modal overlay */
+.modal-backdrop{
+  position:absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.70);
+  backdrop-filter: blur(10px);
+}
+
+/* Modal card container (2 columns desktop) */
+.modal-card{
+  position: relative;
+  width: min(920px, calc(100vw - 30px));
+  background: rgba(10,10,12,0.94);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 22px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: var(--shadow);
+  z-index: 2;
+}
+
+/* Modal close button */
+.modal-close{
+  position:absolute;
+  top: 10px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  cursor:pointer;
+  font-size: 22px;
+  line-height: 1;
+  z-index: 5;
+}
+
+/* Modal media image */
+.modal-media{ background: rgba(255,255,255,0.03); }
+.modal-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* Modal copy */
+.modal-body{ padding: 18px; }
+.modal-price{
+  margin-top: 8px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: rgba(255,196,0,0.88);
+}
+.modal-desc{
+  margin-top: 10px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
+}
+.modal-actions{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.modal-fineprint{
+  margin-top: 14px;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.92rem;
+}
+
+/* Modal responsive: stack columns on small screens */
+@media (max-width: 850px){
+  .modal-card{ grid-template-columns: 1fr; }
+  .modal-media img{ max-height: 46vh; }
+}
+
+/* ------------------------------------------------------------
+   Toast
+   - Small temporary message displayed at bottom center
+   - Visibility toggled via aria-hidden attribute
+------------------------------------------------------------ */
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  background: rgba(0,0,0,0.72);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: rgba(255,255,255,0.92);
+  display:none;
+  z-index: 300;
+  backdrop-filter: blur(10px);
+}
+.toast[aria-hidden="false"]{ display:block; }
