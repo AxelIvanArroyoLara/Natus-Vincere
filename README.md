@@ -1,4 +1,3 @@
-```md
 # NV — Natus Vincere (Frontend Demo)
 
 This project is a **frontend-only demo** built to showcase **technical skill** in modern UI development: motion, 3D transforms, interactive components, and a premium “luxury brand” visual direction.
